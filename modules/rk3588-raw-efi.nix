@@ -1,14 +1,10 @@
 {
   config,
-  lib,
-  options,
-  pkgs,
-  modulesPath,
   nixos-generators,
   ...
 }: let
   # Import raw-efi from nixos-generators
-  raw-efi = nixos-generators.nixosModules.raw-efi;
+  inherit (nixos-generators.nixosModules) raw-efi;
 
   extraInstallCommands = ''
     mkdir -p /boot/dtb/base
