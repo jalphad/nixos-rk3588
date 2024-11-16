@@ -10,7 +10,7 @@
 
   outputs = {nixos-rk3588, ...}: let
     inherit (nixos-rk3588.inputs) nixpkgs;
-    boardModule = nixos-rk3588.nixosModules.nanopir6s;
+    boardModule = nixos-rk3588.nixosModules.boards.nanopir6s;
 
     # Define system architecture and different compilation options.
     bootType = "uefi"; # Change to "u-boot" for U-Boot
@@ -58,6 +58,11 @@
     nixosConfigurations = {
       router = nixpkgs.lib.nixosSystem {
         system = targetSystem;
+        specialArgs = {
+          rk3588 = {
+            inherit pkgsKernel;
+          };
+        };
         modules = [
           boardModule.core
           bootloaderModule
