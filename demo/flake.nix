@@ -55,6 +55,18 @@
         # U-Boot configuration using sd-image
         boardModule.sd-image;
   in {
+    nixosConfigurations = {
+      router = nixpkgs.lib.nixosSystem {
+        system = targetSystem;
+        modules = [
+          boardModule.core
+          bootloaderModule
+          ./configuration.nix
+          ./hardware-configuration.nix
+          ./user-group.nix
+        ];
+      };
+    };
     colmena = {
       meta = {
         nixpkgs = import nixpkgs {system = localSystem;};
