@@ -10,16 +10,15 @@
 
   outputs = {nixos-rk3588, ...}: let
     inherit (nixos-rk3588.inputs) nixpkgs;
-    # TODO: choose your rk3588 SBC model
     boardModule = nixos-rk3588.nixosModules.nanopir6s;
 
     # Define system architecture and different compilation options.
     bootType = "uefi"; # Change to "u-boot" for U-Boot
 
     # Possible values for compilationType: "local-native", "remote-native", or "cross".
-    compilationType = "cross"; # Choose the compilation type here.
+    compilationType = "local-native"; # Choose the compilation type here.
 
-    localSystem = "x86_64-linux";
+    localSystem = "aarch64-linux";
     targetSystem = "aarch64-linux";
 
     # Kernel packages based on compilationType (local native, remote native, or cross-compilation)
@@ -41,7 +40,7 @@
         # grub bootloader configured for UEFI
         boot = {
           # growPartition = true;  # If partition resizing is necessary
-          kernelParams = ["console=ttyS0"]; # If you need serial console access
+          kernelParams = []; # If you need serial console access
           # loader.timeout = lib.mkDefault 0;  # Optional, to skip GRUB menu
           initrd.availableKernelModules = ["uas"]; # If specific kernel modules are required
           loader.grub = {
