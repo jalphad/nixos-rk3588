@@ -67,7 +67,7 @@
         };
       };
 
-      ## TODO: to apply locally this "opi5" must match your local host name, such as "orangepi5" or "orangepi5plus"
+      ## must match your local host name (see user-group.nix), such as "orangepi5" or "orangepi5plus"
       router = {
         deployment = {
           targetHost =
