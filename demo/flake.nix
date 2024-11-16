@@ -33,6 +33,10 @@
         # For both local-native & remote-native compilation
         import nixpkgs {system = targetSystem;};
 
+    extraInstallCommands = ''
+      sync
+    '';
+
     # Define bootloader based on bootType (UEFI or U-Boot)
     bootloaderModule =
       if bootType == "uefi"
@@ -43,11 +47,17 @@
           kernelParams = []; # If you need serial console access
           # loader.timeout = lib.mkDefault 0;  # Optional, to skip GRUB menu
           initrd.availableKernelModules = ["uas"]; # If specific kernel modules are required
-          loader.grub = {
-            enable = true;
-            device = "nodev";
-            efiSupport = true;
-            efiInstallAsRemovable = true;
+          loader = {
+            grub = {
+              enable = true;
+              device = "nodev";
+              efiSupport = true;
+              efiInstallAsRemovable = true;
+              inherit extraInstallCommands;
+            };
+            systemd-boot = {
+              inherit extraInstallCommands;
+            };
           };
         };
       }
